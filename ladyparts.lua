@@ -20,7 +20,7 @@
 --OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 --SOFTWARE.
 
-local ladyparts = { _version = "0.0.1" }
+local ladyparts = { _version = "0.0.2" }
 
 function ladyparts.map( val, min, max, bmin, bmax )
 	return ( ( val - min ) / ( max - min ) ) * ( bmax - bmin ) + bmin
@@ -28,6 +28,17 @@ end
 
 function ladyparts.distance( x1, y1, x2, y2 )
 	return math.sqrt( math.pow( x1 - x2, 2 ) + math.pow( y1 - y2, 2 ) )
+end
+
+ladyparts.table = {}
+
+function ladyparts.table.reverse( table )
+	local lenght = #table
+	local result = {}
+	for i = lenght, 1, -1 do
+		result[ lenght - i + 1 ] = table[ i ]
+	end
+	return result
 end
 
 return ladyparts
