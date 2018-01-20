@@ -20,7 +20,7 @@
 --OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 --SOFTWARE.
 
-local ladyparts = { _version = "0.0.2" }
+local ladyparts = { _version = "0.0.3" }
 
 function ladyparts.map( val, min, max, bmin, bmax )
 	return ( ( val - min ) / ( max - min ) ) * ( bmax - bmin ) + bmin
@@ -30,15 +30,30 @@ function ladyparts.distance( x1, y1, x2, y2 )
 	return math.sqrt( math.pow( x1 - x2, 2 ) + math.pow( y1 - y2, 2 ) )
 end
 
-ladyparts.table = {}
+function ladyparts.inRange( value, min, max )
+	return ( value >= math.min( min, max ) and value <= math.max( min, max ) )
+end
 
-function ladyparts.table.reverse( table )
-	local lenght = #table
-	local result = {}
-	for i = lenght, 1, -1 do
-		result[ lenght - i + 1 ] = table[ i ]
-	end
-	return result
+function ladyparts.rangeIntersect( min1, max1, min2, max2 )
+	return math.max( max1, min1 ) > math.min( min2, max2 ) and math.min( min1, max1 ) < math.max( max2, min2 )
+end
+
+function ladyparts.lerp( s, e, t )
+	return s + t * ( e - s )
+end
+
+function ladyparts.linesIntersect( a, b, c, d )
+	return ladyparts.ccw( a, c, d) ~= ladyparts.ccw( b, c, d ) and ladyparts.ccw( a, b, c ) ~= ladyparts.ccw( a, b, d )
+end
+
+function ladyparts.ccw( a, b, c )
+	return (c.y-a.y) * (b.x-a.x) > (b.y-a.y) * (c.x-a.x)
+end
+
+function ladyparts.clamp( val, min, max )
+	if ( val < min ) then val = min end
+	if ( val > max ) then val = max end
+	return val
 end
 
 return ladyparts
